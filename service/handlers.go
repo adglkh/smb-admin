@@ -103,7 +103,7 @@ func StatesHandler(w http.ResponseWriter, r *http.Request) {
 		// We set current state "not running" if one service is not running.
 		var currentState = "running"
 		var currentAction = T("running")
-		for sindex, _ := range serviceNames[index] {
+		for sindex := range serviceNames[index] {
 
 			srvName := serviceNames[index][sindex]
 
@@ -149,7 +149,7 @@ func UserStatesHandler(w http.ResponseWriter, r *http.Request) {
 	// Find the active state of each of the services
 	for index, srv := range snapKeys {
 
-		for sindex, _ := range serviceNames[index] {
+		for sindex := range serviceNames[index] {
 
 			srvName := serviceNames[index][sindex]
 			displayName := displayNames[index][sindex]
