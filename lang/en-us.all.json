@@ -48,6 +48,14 @@
     "id": "code",
     "translation": "Collabora Online"
   },
+  {
+    "id": "roundcube",
+    "translation": "Roundcube webmail"
+  },
+  {
+    "id": "iredadmin",
+    "translation": "iRedAdmin"
+  },
 
   {
     "id": "nextcloud-nextant_desc",
@@ -76,5 +84,14 @@
   {
     "id": "code_desc",
     "translation": "Collaborative editing with LibreOffice using your own private cloud. Collabora Online is for enterprises that want a powerful self-hosted office suite that protects their privacy and allows them to keep full control of their sensitive corporate data."
+  },
+  {
+    "id": "roundcube_desc",
+    "translation": "Roundcube webmail is browser-based multilingual IMAP client with an application-like user interface. It provides full functionality you expect from an email client, including MIME support, address book, folder manipulation, message searching and spell checking."
+  },
+  {
+    "id": "iredadmin_desc",
+    "translation": "iRedAdmin is iRedMail's official web-based admin panel for the ldap backend. You can use iRedAdmin to manage email accounts and domain names."
   }
+
 ]

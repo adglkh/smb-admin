@@ -44,7 +44,7 @@ const (
 	envPortUser     = "SMBADMIN_PORTUSER"
 )
 
-const version = "0.5"
+const version = "0.6"
 
 // The type of interface that will be shown
 const (
@@ -52,16 +52,19 @@ const (
 	InterfaceTypeUser  = "user"
 )
 
-// serviceKeys defines the key names of each of the snaps
-var serviceKeys = [...]string{"nextcloud-nextant", "wekan-ondra", "rocketchat-server", "gogs", "spreed-webrtc-snap", "mail-all-in-one", "code"}
+// snapKeys defines the key names of each of the snaps
+var snapKeys = [...]string{"nextcloud-nextant", "wekan-ondra", "rocketchat-server", "gogs", "spreed-webrtc-snap", "mail-all-in-one", "code"}
+
+// displayNames defines the display name of service in each snap
+var displayNames = [...][]string{{"nextcloud-nextant"}, {"wekan-ondra"}, {"rocketchat-server"}, {"gogs"}, {"spreed-webrtc-snap"}, {"roundcube", "iredadmin"}, {"code"}}
 
 // serviceNames defines the snapped service names of the services
-var serviceNames = [...]string{"nextcloud", "wekan", "node", "gogs", "spreed", "postfix", "loolwsd"}
+var serviceNames = [...][]string{{"nextcloud"}, {"wekan"}, {"node"}, {"gogs"}, {"spreed"}, {"dovecot", "postfix"}, {"loolwsd"}}
 
 // serviceAdmin defines the URL to configure the service.
 // The value is appended to protocol://domain_name
-var serviceAdmin = [...]string{"/index.php/settings/admin", ":8080", ":3000", ":3001", ":8084", ":8090", ":80"}
+var serviceAdmin = [...][]string{{"/index.php/settings/admin"}, {":8080"}, {":3000"}, {":3001"}, {":8084"}, {":8089", ":8090"}, {":80"}}
 
 // servicePage is the end-user URL to access the service
 // The value is appended to protocol://domain_name
-var servicePage = [...]string{"/index.php", ":8080", ":3000", ":3001", ":8084", ":8089", ":80"}
+var servicePage = [...][]string{{"/index.php"}, {":8080"}, {":3000"}, {":3001"}, {":8084"}, {":8089", ":8090"}, {":80"}}
