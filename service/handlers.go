@@ -120,7 +120,7 @@ func StatesHandler(w http.ResponseWriter, r *http.Request) {
 			currentAction = T("running")
 		}
 
-		state := ActiveState{ID: snapName, Name: T(snapName), Description: T(snapName + "_desc"), State: currentState, Action: currentAction, AdminPage: serviceInfos[srv].AdminUrl, ServicePage: serviceInfos[srv].UserUrl}
+		state := ActiveState{ID: snapName, Name: T(snapName), Description: T(snapName + "_desc"), State: currentState, Action: currentAction, AdminPage: serviceInfos[srv].AdminURL, ServicePage: serviceInfos[srv].UserURL}
 		states = append(states, state)
 	}
 
@@ -163,7 +163,7 @@ func UserStatesHandler(w http.ResponseWriter, r *http.Request) {
 			currentAction = T("running")
 		}
 
-		state := ActiveState{ID: displayName, Name: T(displayName), Description: T(displayName + "_desc"), State: currentState, Action: currentAction, AdminPage: srv.AdminUrl, ServicePage: srv.UserUrl}
+		state := ActiveState{ID: displayName, Name: T(displayName), Description: T(displayName + "_desc"), State: currentState, Action: currentAction, AdminPage: srv.AdminURL, ServicePage: srv.UserURL}
 		states = append(states, state)
 	}
 

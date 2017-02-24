@@ -56,8 +56,8 @@ type ErrorResponse struct {
 }
 
 //ServiceInfo is the basic information of a service
-type ServiceInfo struct {
-	Name, AdminUrl, UserUrl string
+type Service struct {
+	Name, AdminURL, UserURL string
 }
 
 var indexTemplate = "/index.html"

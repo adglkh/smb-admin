@@ -64,7 +64,7 @@ var snapInfos = map[string]string{
 }
 
 // serviceInfos defines the basic information of service in each snap
-var serviceInfos = map[string]ServiceInfo{
+var serviceInfos = map[string]Service{
 	"nextcloud-nextant":  {"nextcloud", "/index.php/settings/admin", "/index.php"},
 	"wekan-ondra":        {"wekan", ":8080", ":8080"},
 	"rocketchat-server":  {"node", ":3000", ":3000"},
