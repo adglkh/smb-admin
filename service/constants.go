@@ -52,19 +52,25 @@ const (
 	InterfaceTypeUser  = "user"
 )
 
-// snapKeys defines the key names of each of the snaps
-var snapKeys = [...]string{"nextcloud-nextant", "wekan-ondra", "rocketchat-server", "gogs", "spreed-webrtc-snap", "mail-all-in-one", "code"}
+// snapInfos defines the key names and first service name of each of the snaps
+var snapInfos = map[string]string{
+	"nextcloud-nextant":  "nextcloud-nextant",
+	"wekan-ondra":        "wekan-ondra",
+	"rocketchat-server":  "rocketchat-server",
+	"gogs":               "gogs",
+	"spreed-webrtc-snap": "spreed-webrtc-snap",
+	"mail-all-in-one":    "roundcube",
+	"code":               "code",
+}
 
-// displayNames defines the display name of service in each snap
-var displayNames = [...][]string{{"nextcloud-nextant"}, {"wekan-ondra"}, {"rocketchat-server"}, {"gogs"}, {"spreed-webrtc-snap"}, {"roundcube", "iredadmin"}, {"code"}}
-
-// serviceNames defines the snapped service names of the services
-var serviceNames = [...][]string{{"nextcloud"}, {"wekan"}, {"node"}, {"gogs"}, {"spreed"}, {"dovecot", "postfix"}, {"loolwsd"}}
-
-// serviceAdmin defines the URL to configure the service.
-// The value is appended to protocol://domain_name
-var serviceAdmin = [...][]string{{"/index.php/settings/admin"}, {":8080"}, {":3000"}, {":3001"}, {":8084"}, {":8089", ":8090"}, {":80"}}
-
-// servicePage is the end-user URL to access the service
-// The value is appended to protocol://domain_name
-var servicePage = [...][]string{{"/index.php"}, {":8080"}, {":3000"}, {":3001"}, {":8084"}, {":8089", ":8090"}, {":80"}}
+// serviceInfos defines the basic information of service in each snap
+var serviceInfos = map[string]ServiceInfo{
+	"nextcloud-nextant":  {"nextcloud", "/index.php/settings/admin", "/index.php"},
+	"wekan-ondra":        {"wekan", ":8080", ":8080"},
+	"rocketchat-server":  {"node", ":3000", ":3000"},
+	"gogs":               {"gogs", ":3001", ":3001"},
+	"spreed-webrtc-snap": {"spreed", ":8084", ":8084"},
+	"roundcube":          {"dovecot", ":8089", ":8089"},
+	"iredadmin":          {"postfix", ":8090", ":8090"},
+	"code":               {"code", ":80", ":80"},
+}

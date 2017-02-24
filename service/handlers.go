@@ -96,39 +96,31 @@ func StatesHandler(w http.ResponseWriter, r *http.Request) {
 	states := []ActiveState{}
 
 	// Find the active state of each of the services
-	for index, srv := range snapKeys {
+	for snapName, srv := range snapInfos {
 
-		// Determine the running state of the service
-		// For a snap contains multiple services,
-		// We set current state "not running" if one service is not running.
-		var currentState = "running"
-		var currentAction = T("running")
-		for sindex := range serviceNames[index] {
+		// This would be the best option, but we don't have permissions to use systemctl
+		//out, err := exec.Command("systemctl", "show", "-p", "ActiveState", serviceNames[index]).Output()
 
-			srvName := serviceNames[index][sindex]
+		// Use 'ps' and 'grep' to find if the service is running
+		p := pipe.Line(
+			pipe.Exec("ps", "-eo", "tty,comm"),
+			pipe.Exec("grep", serviceInfos[srv].Name),
+		)
 
-			// This would be the best option, but we don't have permissions to use systemctl
-			//out, err := exec.Command("systemctl", "show", "-p", "ActiveState", serviceNames[index]).Output()
-
-			// Use 'ps' and 'grep' to find if the service is running
-			p := pipe.Line(
-				pipe.Exec("ps", "-eo", "tty,comm"),
-				pipe.Exec("grep", srvName),
-			)
-
-			output, err := pipe.CombinedOutput(p)
-			if err != nil {
-				log.Printf("Service '%s' is not running: %v\n", srvName, err)
-			}
-
-			if len(string(output)) == 0 {
-				currentState = "not_running"
-				currentAction = T("not_running")
-				break
-			}
+		output, err := pipe.CombinedOutput(p)
+		if err != nil {
+			log.Printf("Service '%s' is not running: %v\n", serviceInfos[srv].Name, err)
 		}
 
-		state := ActiveState{ID: srv, Name: T(srv), Description: T(srv + "_desc"), State: currentState, Action: currentAction, AdminPage: serviceAdmin[index][0], ServicePage: servicePage[index][0]}
+		// Determine the running state of the service
+		var currentState = "not_running"
+		var currentAction = T("not_running")
+		if len(string(output)) > 0 {
+			currentState = "running"
+			currentAction = T("running")
+		}
+
+		state := ActiveState{ID: snapName, Name: T(snapName), Description: T(snapName + "_desc"), State: currentState, Action: currentAction, AdminPage: serviceInfos[srv].AdminUrl, ServicePage: serviceInfos[srv].UserUrl}
 		states = append(states, state)
 	}
 
@@ -147,38 +139,32 @@ func UserStatesHandler(w http.ResponseWriter, r *http.Request) {
 	states := []ActiveState{}
 
 	// Find the active state of each of the services
-	for index, srv := range snapKeys {
+	for displayName, srv := range serviceInfos {
 
-		for sindex := range serviceNames[index] {
+		// This would be the best option, but we don't have permissions to use systemctl
+		//out, err := exec.Command("systemctl", "show", "-p", "ActiveState", serviceNames[index]).Output()
 
-			srvName := serviceNames[index][sindex]
-			displayName := displayNames[index][sindex]
+		// Use 'ps' and 'grep' to find if the service is running
+		p := pipe.Line(
+			pipe.Exec("ps", "-eo", "tty,comm"),
+			pipe.Exec("grep", srv.Name),
+		)
 
-			// This would be the best option, but we don't have permissions to use systemctl
-			//out, err := exec.Command("systemctl", "show", "-p", "ActiveState", serviceNames[index]).Output()
-
-			// Use 'ps' and 'grep' to find if the service is running
-			p := pipe.Line(
-				pipe.Exec("ps", "-eo", "tty,comm"),
-				pipe.Exec("grep", srvName),
-			)
-
-			output, err := pipe.CombinedOutput(p)
-			if err != nil {
-				log.Printf("Service '%s' is not running: %v\n", srvName, err)
-			}
-
-			// Determine the running state of the service
-			var currentState = "not_running"
-			var currentAction = T("not_running")
-			if len(string(output)) > 0 {
-				currentState = "running"
-				currentAction = T("running")
-			}
-
-			state := ActiveState{ID: srv + "_" + displayName, Name: T(displayName), Description: T(displayName + "_desc"), State: currentState, Action: currentAction, AdminPage: serviceAdmin[index][sindex], ServicePage: servicePage[index][sindex]}
-			states = append(states, state)
+		output, err := pipe.CombinedOutput(p)
+		if err != nil {
+			log.Printf("Service '%s' is not running: %v\n", srv.Name, err)
 		}
+
+		// Determine the running state of the service
+		var currentState = "not_running"
+		var currentAction = T("not_running")
+		if len(string(output)) > 0 {
+			currentState = "running"
+			currentAction = T("running")
+		}
+
+		state := ActiveState{ID: displayName, Name: T(displayName), Description: T(displayName + "_desc"), State: currentState, Action: currentAction, AdminPage: srv.AdminUrl, ServicePage: srv.UserUrl}
+		states = append(states, state)
 	}
 
 	response := StatesResponse{Success: true, States: states}
